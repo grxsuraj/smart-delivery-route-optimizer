@@ -2,6 +2,14 @@
 
 C++ Dijkstra engine + SQL delay history + Flask API + n8n automated alerts.
 
+## Screenshots
+
+**App Demo — Route Check with Delay Prediction**
+![App Demo](screenshots/app_demo.png)
+
+**n8n Workflow — Webhook → Severity Check → Alert Routing**
+![n8n Workflow](screenshots/n8n_workflow.png)
+
 ## Folder Structure
 ```
 route_optimizer/
@@ -18,6 +26,9 @@ route_optimizer/
 ├── static/
 │   ├── style.css           # All CSS styling
 │   └── script.js            # All frontend JS logic (fetch calls, graph drawing)
+├── screenshots/
+│   ├── app_demo.png         # App UI screenshot
+│   └── n8n_workflow.png     # n8n workflow screenshot
 └── n8n_workflow.json        # Importable n8n workflow
 ```
 
