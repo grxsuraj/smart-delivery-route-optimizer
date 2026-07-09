@@ -1,0 +1,81 @@
+{
+  "name": "Delivery Delay Alert",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "delay-alert",
+        "httpMethod": "POST",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [260, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json[\"predicted_delay_min\"]}}",
+              "operation": "largerEqual",
+              "value2": 40
+            }
+          ]
+        }
+      },
+      "id": "if-node",
+      "name": "Check Severity",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "alerts@routeoptimizer.local",
+        "toEmail": "logistics-manager@example.com",
+        "subject": "URGENT: High Delay Risk on Route {{$json[\"route\"]}}",
+        "text": "=Route: {{$json[\"route\"]}}\nPredicted Delay: {{$json[\"predicted_delay_min\"]}} minutes\nThreshold: {{$json[\"threshold\"]}} minutes\n\nThis route is at CRITICAL delay risk. Please take action."
+      },
+      "id": "email-critical-node",
+      "name": "Send Critical Alert",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [740, 200]
+    },
+    {
+      "parameters": {
+        "fromEmail": "alerts@routeoptimizer.local",
+        "toEmail": "logistics-manager@example.com",
+        "subject": "Notice: Moderate Delay Risk on Route {{$json[\"route\"]}}",
+        "text": "=Route: {{$json[\"route\"]}}\nPredicted Delay: {{$json[\"predicted_delay_min\"]}} minutes\nThreshold: {{$json[\"threshold\"]}} minutes\n\nMonitor this route, no immediate action required."
+      },
+      "id": "email-moderate-node",
+      "name": "Log Moderate Alert",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [740, 400]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          { "node": "Check Severity", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Check Severity": {
+      "main": [
+        [
+          { "node": "Send Critical Alert", "type": "main", "index": 0 }
+        ],
+        [
+          { "node": "Log Moderate Alert", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  }
+}

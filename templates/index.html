@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart Delivery Route Optimizer</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>🚚 Smart Delivery Route Optimizer</h1>
+<div class="subtitle">C++ Dijkstra engine · SQL delay prediction · n8n automated alerts</div>
+
+<div class="container">
+  <div class="panel controls">
+    <label>Source</label>
+    <select id="source"></select>
+
+    <label>Destination</label>
+    <select id="destination"></select>
+
+    <button onclick="checkRoute()">Check Route</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <div class="panel graph-panel">
+    <svg id="graph" viewBox="0 0 500 420"></svg>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

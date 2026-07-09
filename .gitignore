@@ -1,0 +1,7 @@
+__pycache__/ 
+*.pyc 
+route_optimizer.db 
+cpp/*.so 
+cpp/*.pyd 
+cpp/build/ 
+.vscode/ 
